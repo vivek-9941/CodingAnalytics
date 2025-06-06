@@ -28,7 +28,10 @@ public class Codechef {
     private LocalDateTime lastUpdated;
 
     @ElementCollection
-    private List<Rating> CodeforcesRatings;
+    @CollectionTable(
+            name = "codechef_rating_history",
+            joinColumns = @JoinColumn(name = "codechef_id"))
+    private List<Rating> CodechefRatings;
 
     @OneToOne
     private User user;

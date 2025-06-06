@@ -28,6 +28,9 @@ public class Codeforces {
     private LocalDateTime lastUpdated;
 
     @ElementCollection
+    @CollectionTable(
+            name = "codeforces_rating_history",
+            joinColumns = @JoinColumn(name = "codeforces_id"))
     private List<Rating> CodeforcesRatings;
 
     @OneToOne

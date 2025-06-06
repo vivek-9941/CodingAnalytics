@@ -34,6 +34,9 @@ public class Leetcode {
     private List<LeetCodeTagStat> tagStats;
 
     @ElementCollection
+    @CollectionTable(
+            name = "leetcode_rating_history",
+            joinColumns = @JoinColumn(name = "leetcode_id"))
     private List<Rating> ratingHistory;
 
     @OneToOne
