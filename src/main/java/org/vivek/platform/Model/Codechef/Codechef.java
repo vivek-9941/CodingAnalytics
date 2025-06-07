@@ -19,6 +19,7 @@ import java.util.List;
 @Builder
 public class Codechef {
     @Id
+            @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
     private String handle;
     private String realName;

@@ -18,7 +18,9 @@ import java.util.List;
 @Builder
 public class Leetcode {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
+    @Column(unique = true, nullable = false)
     private String handle;
     private String realName;
     private Integer globalRanking;
@@ -29,6 +31,7 @@ public class Leetcode {
 
     @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<LeetCodeSubmissionStats> submissionStats;
+
 
     @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<LeetCodeTagStat> tagStats;

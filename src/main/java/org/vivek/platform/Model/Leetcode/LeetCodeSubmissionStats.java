@@ -11,16 +11,23 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Table(name = "leet_code_submission_stats")
 public class LeetCodeSubmissionStats {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String difficulty;  // "Easy", "Medium", "Hard", "All"
-    private Integer count;      // Accepted
-    private Integer submissions;
+    private Integer Easy;  // "Easy", "Medium", "Hard", "All"
+    private Integer Medium;
+    private Integer Hard;
+    private Integer All_count;       // Accepted
 
+    private Integer EasySubmission;  // "Easy", "Medium", "Hard", "All"
+    private Integer MediumSubmission;
+    private Integer HardSubmission;
+    private Integer AllSubmission;
     @ManyToOne
+    @JoinColumn(name = "profile_id")
     private Leetcode profile;
 }

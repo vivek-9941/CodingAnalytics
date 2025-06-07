@@ -1,7 +1,9 @@
 package org.vivek.platform.Service;
 
+import org.vivek.platform.Model.User;
+
 public interface CodeforcesService {
-    void fetchapi(String username);
+    void fetchapi(String username, User user);
     void schedule();
 
 }

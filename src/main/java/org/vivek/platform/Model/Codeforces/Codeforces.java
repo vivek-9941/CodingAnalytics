@@ -19,12 +19,14 @@ import java.util.List;
 @Builder
 public class Codeforces {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
+    @Column(unique = true)
+
     private String handle;
-    private String realName;
-    private Integer globalRanking;
-    private String country;
-    private Integer totalSolved;
+    private String globalrank;
+    private Integer rating;
+    private Integer maxRating;
     private LocalDateTime lastUpdated;
 
     @ElementCollection
