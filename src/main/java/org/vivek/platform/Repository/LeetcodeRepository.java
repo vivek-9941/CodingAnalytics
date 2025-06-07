@@ -7,5 +7,5 @@ import org.vivek.platform.Model.User;
 import java.util.Optional;
 
 public interface LeetcodeRepository extends JpaRepository<Leetcode, Long> {
-    Optional<Leetcode> findByHandleAndUser(String handle, User user);
+    Leetcode findByHandle(String handle);
 }

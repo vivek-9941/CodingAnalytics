@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.vivek.platform.Model.Leetcode.LeetCodeSubmissionStats;
 import org.vivek.platform.Model.Leetcode.Leetcode;
 import org.vivek.platform.Model.User;
 import org.vivek.platform.Repository.LeetcodeRepository;
@@ -53,12 +54,16 @@ public class trial {
         user2.setEmail("vivek@example.com");
         user2.setId(2L);
 
+//
+//        Leetcode lcv = repo.findByHandleAndUser("vivek_M5CS", user).orElseThrow();
+//        Leetcode lck = repo.findByHandleAndUser("kartik_mane", user2).orElseThrow();
 
-        Leetcode lcv = repo.findByHandleAndUser("vivek_M5CS", user).orElse(null);
-        Leetcode lck = repo.findByHandleAndUser("kartik_mane", user2).orElse(null);
+// ✅ Update fields manually or via method
 
-        lck.setId(lcv.getId());
-        repo.save(lck);
+// ... update whatever else is needed
+
+//        repo.save(lcv); // ✅ Hibernate will treat this as an UPDATE
+
         /// now just copy all the values from exxisting to new 
     }
 }

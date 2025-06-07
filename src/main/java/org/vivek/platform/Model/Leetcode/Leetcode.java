@@ -20,7 +20,6 @@ public class Leetcode {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
-    @Column(unique = true, nullable = false)
     private String handle;
     private String realName;
     private Integer globalRanking;

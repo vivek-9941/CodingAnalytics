@@ -1,10 +1,12 @@
 package org.vivek.platform.Service.Implementation;
-
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.annotation.Propagation;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.vivek.platform.Model.Leetcode.Leetcode;
 import org.vivek.platform.Model.User;
 import org.vivek.platform.Repository.LeetcodeRepository;
@@ -40,10 +42,12 @@ public class LeetcodeServiceImpl implements LeetcodeService {
     @Autowired
     private LeetcodeRepository leetcodeRepository;
 
+
     @Autowired
     private ObjectMapper objectMapper;
 
     @Override
+    @Transactional
     public void fetchapi(String username, User user) throws JsonProcessingException {
 
         ResponseEntity<String> response = client.fetchUserProfile(username);
@@ -55,20 +59,24 @@ public class LeetcodeServiceImpl implements LeetcodeService {
             Leetcode newEntity = mappingService.mapToEntity(dto, user);
 
             // Check if existing record present
-            Leetcode existingEntity = leetcodeRepository.findByHandleAndUser(newEntity.getHandle(), user).orElse(null);
+            Leetcode existingEntity = leetcodeRepository.findByHandle(newEntity.getHandle());
 
-            if (existingEntity != null) {
-                // Update ID so JPA treats this as update, not insert
-                newEntity.setId(existingEntity.getId());
+//            if (existingEntity != null) {
+            assert existingEntity != null;
+            long id = existingEntity.getId();
+            newEntity.setCountry("United States");
+                newEntity.setId(id);
+//                leetcodeRepository.delete(existingEntity);
+                leetcodeRepository.flush(); // ✅ Immediately execute DELETE
 
-                // Optional: if you want to merge or selectively update fields in existingEntity,
-                // you can do so here instead of full replace.
+                leetcodeRepository.save(newEntity);
+//
+//            }
+//            else{
+//                leetcodeRepository.save(newEntity);
+//            }
 
-                // Also, if you want to update nested collections carefully (submissionStats, tagStats),
-                // consider clearing or updating those collections here to avoid duplicates.
-            }
 
-            leetcodeRepository.save(newEntity);
         } else {
             throw new RuntimeException("Failed to fetch profile from Leetcode for: " + username);
         }
