@@ -34,20 +34,17 @@ public class LeetcodeServiceImpl implements LeetcodeService {
 
     @Autowired
     private LeetcodeClient client;
+    @Autowired
+    private LeetcodeMappingService mappingService;
+    @Autowired
+    private LeetcodeRepository leetcodeRepository;
+    @Autowired
+    private ObjectMapper objectMapper;
+
 
     public LeetcodeServiceImpl(LeetcodeClient client) {
         this.client = client;
     }
-
-    @Autowired
-    private LeetcodeMappingService mappingService;
-
-    @Autowired
-    private LeetcodeRepository leetcodeRepository;
-
-
-    @Autowired
-    private ObjectMapper objectMapper;
 
     @Override
     @Transactional
@@ -88,14 +85,13 @@ public class LeetcodeServiceImpl implements LeetcodeService {
     @Override
     public Leetcode getLeetcode(String username, User user) throws JsonProcessingException {
         Leetcode lc = leetcodeRepository.findByUser(user);
-        if(lc == null) {
+        if (lc == null) {
             fetchapi(username, user);
-        }
-        else{
+        } else {
             boolean isrequired = schedule(lc);
-        if (isrequired ) {
-            fetchapi(username, user);
-        }
+            if (isrequired) {
+                fetchapi(username, user);
+            }
         }
         return leetcodeRepository.findByUser(user);
     }
@@ -103,9 +99,6 @@ public class LeetcodeServiceImpl implements LeetcodeService {
 
     @Override
     public boolean schedule(Leetcode leetcode) {
-        if (LocalDateTime.now().isAfter(leetcode.getLastUpdated().plusHours(24))) {
-            return true;
-        }
-        return false;
+        return LocalDateTime.now().isAfter(leetcode.getLastUpdated().plusHours(24));
     }
 }

@@ -1,5 +1,6 @@
 package org.vivek.platform.Service.Implementation;
 
+import org.aspectj.apache.bcel.classfile.Code;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.vivek.platform.Model.Codeforces.Codeforces;
@@ -67,12 +68,20 @@ public class CodeforcesServiceImpl implements CodeforcesService {
     }
 
     @Override
-    public void schedule() {
-
+    public boolean schedule(Codeforces codeforces) {
+        return LocalDateTime.now().isAfter(codeforces.getLastUpdated().plusHours(24));
     }
 
     @Override
-    public Codeforces getCodeforces(User user) {
+    public Codeforces getCodeforces(String username,User user) {
+
+        Codeforces cf =  codeforcesRepository.getCodeforcesByUser(user);
+        if(cf == null) {
+            fetchapi(username, user);
+        }
+        else if(schedule(cf)){
+            fetchapi(username, user);
+        }
         return codeforcesRepository.getCodeforcesByUser(user);
     }
 }
