@@ -6,6 +6,7 @@ import org.vivek.platform.Model.Codeforces.CodeforcesSubmissions;
 import org.vivek.platform.Model.User;
 import org.vivek.platform.Repository.CodeforcesSubmissionRepository;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 @Service
 public class codeforcessubmissionService {
@@ -16,7 +17,13 @@ public class codeforcessubmissionService {
     private CodeforcesSubmissionRepository repo;
 
     public CodeforcesSubmissions getVerdictRatingStats(String handle, User user) {
-    CodeforcesSubmissions submissions = new CodeforcesSubmissions();
+        CodeforcesSubmissions existing = repo.findByUser(user);
+        if(existing != null) {
+            if(LocalDateTime.now().isBefore(existing.getLocalDateTime().plusHours(24))){
+                return existing;
+            }
+        }
+        CodeforcesSubmissions submissions = new CodeforcesSubmissions();
         Map<String , Integer> mpp =  codeforcesService.getVerdictWiseStats(handle);
         submissions.setCompilationError(mpp.getOrDefault("COMPILATION_ERROR", 0));
         submissions.setMemeoryLimit(mpp.getOrDefault("MEMORY_LIMIT_EXCEEDED", 0));
@@ -25,8 +32,6 @@ public class codeforcessubmissionService {
         submissions.setRuntimeError(mpp.getOrDefault("RUNTIME_ERROR", 0));
         submissions.setTimeLimit(mpp.getOrDefault("TIME_LIMIT_EXCEEDED", 0));
         submissions.setWrongAnswer(mpp.getOrDefault("WRONG_ANSWER", 0));
-
-
 
         Map<Integer , Integer> map=  codeforcesService.getSolvedRatingCountInRange(handle, 800, 1800);
         submissions.set_800(map.getOrDefault(800, 0));
@@ -40,6 +45,7 @@ public class codeforcessubmissionService {
         submissions.set_1600(map.getOrDefault(1600, 0));
         submissions.set_1700(map.getOrDefault(1700, 0));
         submissions.set_1800(map.getOrDefault(1800, 0));
+        submissions.setLocalDateTime(LocalDateTime.now());
 
         repo.save(submissions);
         return submissions;

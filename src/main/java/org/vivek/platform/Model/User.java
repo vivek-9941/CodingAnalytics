@@ -1,5 +1,6 @@
 package org.vivek.platform.Model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,6 +26,8 @@ public class User {
     private Leetcode lc;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonManagedReference
+
     private Codeforces cf;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)

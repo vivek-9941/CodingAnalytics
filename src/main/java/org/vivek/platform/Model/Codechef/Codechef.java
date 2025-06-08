@@ -1,6 +1,7 @@
 package org.vivek.platform.Model.Codechef;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -35,5 +36,7 @@ public class Codechef {
     private List<Rating> CodechefRatings;
 
     @OneToOne
+    @JoinColumn(name = "user_id")
+    @JsonBackReference
     private User user;
 }

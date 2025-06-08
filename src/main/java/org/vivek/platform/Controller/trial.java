@@ -4,7 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.vivek.platform.Model.Codeforces.CodeforcesSubmissions;
 import org.vivek.platform.Model.User;
+import org.vivek.platform.Repository.CodeforcesSubmissionRepository;
 import org.vivek.platform.Repository.LeetcodeRepository;
 import org.vivek.platform.Service.CodechefService;
 import org.vivek.platform.Service.Implementation.*;
@@ -59,28 +61,15 @@ public class trial {
 
         /// now just copy all the values from exxisting to new 
     }
+    @Autowired
+    codeforcessubmissionService codeforcessubmissionService;
+    @GetMapping("/submit")
+    public CodeforcesSubmissions submissions() {
 
-
-    @RestController
-    @RequestMapping("/api/codeforces")
-    public class CodeforcesController {
-
-        @Autowired
-        private CodeforcesSubmissionsclient codeforcesService;
-
-        @GetMapping("/verdict-summary/{handle}")
-        public Map<String, Integer> getVerdictStats(@PathVariable String handle) {
-            return codeforcesService.getVerdictWiseStats(handle);
-        }
-        @GetMapping("/rating-summary/{handle}")
-        public Map<Integer, Integer> getRatingWiseCount(
-                @PathVariable String handle,
-                @RequestParam(defaultValue = "800") int min,
-                @RequestParam(defaultValue = "1800") int max
-        ) {
-            return codeforcesService.getSolvedRatingCountInRange(handle, min, max);
-        }
-
+        return codeforcessubmissionService.getVerdictRatingStats("vivek_9941" ,  userService.getUserById(1L));
     }
+
+
+
 
 }
