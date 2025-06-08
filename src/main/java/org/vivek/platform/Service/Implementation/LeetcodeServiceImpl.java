@@ -92,6 +92,9 @@ public class LeetcodeServiceImpl implements LeetcodeService {
             if (isrequired) {
                 fetchapi(username, user);
             }
+            else{
+                return lc;
+            }
         }
         return leetcodeRepository.findByUser(user);
     }

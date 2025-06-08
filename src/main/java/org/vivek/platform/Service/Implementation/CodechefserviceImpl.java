@@ -68,12 +68,22 @@ public class CodechefserviceImpl implements CodechefService {
     }
 
     @Override
-    public Codechef getCodechef(User user) {
+    public Codechef getCodechef(String username, User user) {
+        Codechef cc =  codeChefRepository.findByUser(user);
+        if(cc == null) {
+            fetchapi(username, user);
+        }
+        else if(schedule(cc)){
+            fetchapi(username, user);
+        }
+        else{
+            return cc;
+        }
         return codeChefRepository.findByUser(user);
     }
 
     @Override
-    public void schedule() {
-
+    public boolean schedule( Codechef codechef) {
+        return (LocalDateTime.now().isAfter(codechef.getLastUpdated().plusHours(24))) ;
     }
 }

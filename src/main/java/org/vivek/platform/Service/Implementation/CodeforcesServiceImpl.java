@@ -82,6 +82,9 @@ public class CodeforcesServiceImpl implements CodeforcesService {
         else if(schedule(cf)){
             fetchapi(username, user);
         }
+        else{
+            return cf;
+        }
         return codeforcesRepository.getCodeforcesByUser(user);
     }
 }

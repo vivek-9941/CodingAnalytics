@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface CodechefService {
     void fetchapi(String username, User user);
-    void schedule();
+    boolean schedule(Codechef codechef);
     List<Rating> mapRating(List<CodechefRatingDTO> list);
-    Codechef getCodechef(User user);
+    Codechef getCodechef(String Username,User user);
 }
