@@ -11,6 +11,7 @@ import org.vivek.platform.Model.Leetcode.LeetCodeSubmissionStats;
 import org.vivek.platform.Model.Leetcode.Leetcode;
 import org.vivek.platform.Model.User;
 import org.vivek.platform.Repository.LeetcodeRepository;
+import org.vivek.platform.Service.CodechefService;
 import org.vivek.platform.Service.Implementation.CodeforcesServiceImpl;
 import org.vivek.platform.Service.Implementation.LeetcodeClient;
 import org.vivek.platform.Service.Implementation.LeetcodeServiceImpl;
@@ -25,16 +26,15 @@ public class trial {
     UserServiceImpl userService;
     @Autowired
     CodeforcesServiceImpl codeforcesService;
+    @Autowired
+    CodechefService codechefService;
 
     @PostMapping("/leet")
     public ResponseEntity<?> getUserFullProfile(@RequestParam String username) throws JsonProcessingException {
-        User newUser = User.builder()
-                .email("vivek@example.com")
-                .username("Vivek Sharma")
-                .build();
-        userService.save(newUser);
+        User newUser = userService.getUserById(1L);
 //        client.fetchapi(username, newUser);
-        codeforcesService.fetchapi("vivek_9941", newUser);
+//        codeforcesService.fetchapi("vivek_9941", newUser);
+        codechefService.fetchapi("cast_silk_93" , newUser);
         return null;
     }
 

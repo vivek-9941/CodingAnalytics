@@ -5,4 +5,5 @@ import org.vivek.platform.Model.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
+    User findByUsername(String username);
 }

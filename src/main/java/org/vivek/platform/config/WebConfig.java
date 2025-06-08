@@ -13,4 +13,9 @@ public class WebConfig {
 
     }
 
+    @Bean
+    public WebClient CodeChefClient(){
+        return WebClient.builder().baseUrl("https://codechef-api.vercel.app/handle").build();
+    }
+
 }

@@ -24,8 +24,8 @@ public class Codechef {
     private String handle;
     private String realName;
     private Integer globalRanking;
+    private Integer Currentrating;
     private String country;
-    private Integer totalSolved;
     private LocalDateTime lastUpdated;
 
     @ElementCollection

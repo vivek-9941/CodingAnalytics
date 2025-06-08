@@ -17,23 +17,23 @@ import java.time.ZoneId;
 import java.util.stream.Collectors;
 @Service
 public class CodeforcesServiceImpl implements CodeforcesService {
-    private final WebClient webClient;
+    private final WebClient CodeforcesClient;
     private final CodeforcesRepository codeforcesRepository;
 
-    public CodeforcesServiceImpl(WebClient webClient, CodeforcesRepository codeforcesRepository) {
-        this.webClient = webClient;
+    public CodeforcesServiceImpl(WebClient CodeforcesClient, CodeforcesRepository codeforcesRepository) {
+        this.CodeforcesClient = CodeforcesClient;
         this.codeforcesRepository = codeforcesRepository;
     }
 
     @Override
     public void fetchapi(String username, User user) {
-        CodeforcesUserInfoResponse userinfo = webClient.get()
+        CodeforcesUserInfoResponse userinfo = CodeforcesClient.get()
                 .uri("/user.info?handles=" + username)
                 .retrieve()
                 .bodyToMono(CodeforcesUserInfoResponse.class)
                 .block();
 
-        CodeforcesRatingDTO ratinginfo = webClient.get()
+        CodeforcesRatingDTO ratinginfo = CodeforcesClient.get()
                 .uri("/user.rating?handle=" + username)
                 .retrieve()
                 .bodyToMono(CodeforcesRatingDTO.class)
