@@ -21,7 +21,7 @@ public class Codeforces {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
-    @Column(unique = true)
+
 
     private String handle;
     private String globalrank;

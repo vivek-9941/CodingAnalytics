@@ -1,5 +1,6 @@
 package org.vivek.platform.Service.Implementation;
 
+import org.aspectj.apache.bcel.classfile.Code;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.vivek.platform.Model.Codeforces.Codeforces;
@@ -56,6 +57,11 @@ public class CodeforcesServiceImpl implements CodeforcesService {
                             )
                             .collect(Collectors.toList()))
                     .build();
+
+            Codeforces existing = codeforcesRepository.findByHandle(codeforces.getHandle());
+            if(existing != null) {
+                codeforces.setId(existing.getId());
+            }
             codeforcesRepository.save(codeforces);
         }
 

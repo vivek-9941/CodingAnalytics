@@ -33,7 +33,7 @@ public class trial {
                 .username("Vivek Sharma")
                 .build();
         userService.save(newUser);
-        client.fetchapi(username, newUser);
+//        client.fetchapi(username, newUser);
         codeforcesService.fetchapi("vivek_9941", newUser);
         return null;
     }
