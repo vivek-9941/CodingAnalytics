@@ -29,17 +29,17 @@ public class codeforcessubmissionService {
 
 
         Map<Integer , Integer> map=  codeforcesService.getSolvedRatingCountInRange(handle, 800, 1800);
-        submissions.set_800(map.getOrDefault("800", 0));
-        submissions.set_900(map.getOrDefault("900", 0));
-        submissions.set_1000(map.getOrDefault("1000", 0));
-        submissions.set_1100(map.getOrDefault("1100", 0));
-        submissions.set_1200(map.getOrDefault("1200", 0));
-        submissions.set_1300(map.getOrDefault("1300", 0));
-        submissions.set_1400(map.getOrDefault("1400", 0));
-        submissions.set_1500(map.getOrDefault("1500", 0));
-        submissions.set_1600(map.getOrDefault("1600", 0));
-        submissions.set_1700(map.getOrDefault("1700", 0));
-        submissions.set_1800(map.getOrDefault("1800", 0));
+        submissions.set_800(map.getOrDefault(800, 0));
+        submissions.set_900(map.getOrDefault(900, 0));
+        submissions.set_1000(map.getOrDefault(1000, 0));
+        submissions.set_1100(map.getOrDefault(1100, 0));
+        submissions.set_1200(map.getOrDefault(1200, 0));
+        submissions.set_1300(map.getOrDefault(1300, 0));
+        submissions.set_1400(map.getOrDefault(1400, 0));
+        submissions.set_1500(map.getOrDefault(1500, 0));
+        submissions.set_1600(map.getOrDefault(1600, 0));
+        submissions.set_1700(map.getOrDefault(1700, 0));
+        submissions.set_1800(map.getOrDefault(1800, 0));
 
         repo.save(submissions);
         return submissions;
