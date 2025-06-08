@@ -1,4 +1,5 @@
 package org.vivek.platform.Service.Implementation;
+
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.annotation.Propagation;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -13,6 +14,8 @@ import org.vivek.platform.Repository.LeetcodeRepository;
 import org.vivek.platform.Service.DTO.LeetcodeDTO;
 import org.vivek.platform.Service.DTO.LeetcodeMappingService;
 import org.vivek.platform.Service.LeetcodeService;
+
+import java.time.LocalDateTime;
 
 @Service
 public class LeetcodeServiceImpl implements LeetcodeService {
@@ -65,11 +68,11 @@ public class LeetcodeServiceImpl implements LeetcodeService {
             assert existingEntity != null;
             long id = existingEntity.getId();
             newEntity.setCountry("United States");
-                newEntity.setId(id);
+            newEntity.setId(id);
 //                leetcodeRepository.delete(existingEntity);
-                leetcodeRepository.flush(); // ✅ Immediately execute DELETE
+            leetcodeRepository.flush(); // ✅ Immediately execute DELETE
 
-                leetcodeRepository.save(newEntity);
+            leetcodeRepository.save(newEntity);
 //
 //            }
 //            else{
@@ -83,15 +86,26 @@ public class LeetcodeServiceImpl implements LeetcodeService {
     }
 
     @Override
-    public Leetcode getLeetcode(User user) {
+    public Leetcode getLeetcode(String username, User user) throws JsonProcessingException {
+        Leetcode lc = leetcodeRepository.findByUser(user);
+        if(lc == null) {
+            fetchapi(username, user);
+        }
+        else{
+            boolean isrequired = schedule(lc);
+        if (isrequired ) {
+            fetchapi(username, user);
+        }
+        }
         return leetcodeRepository.findByUser(user);
-
-
     }
 
 
     @Override
-    public void schedule() {
-
+    public boolean schedule(Leetcode leetcode) {
+        if (LocalDateTime.now().isAfter(leetcode.getLastUpdated().plusHours(24))) {
+            return true;
+        }
+        return false;
     }
 }
