@@ -8,4 +8,6 @@ import java.util.Optional;
 
 public interface LeetcodeRepository extends JpaRepository<Leetcode, Long> {
     Leetcode findByHandle(String handle);
+
+    Leetcode findByUser(User user);
 }

@@ -68,6 +68,11 @@ public class CodechefserviceImpl implements CodechefService {
     }
 
     @Override
+    public Codechef getCodechef(User user) {
+        return codeChefRepository.findByUser(user);
+    }
+
+    @Override
     public void schedule() {
 
     }

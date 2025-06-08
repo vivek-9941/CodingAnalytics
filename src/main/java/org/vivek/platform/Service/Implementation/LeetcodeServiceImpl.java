@@ -82,6 +82,13 @@ public class LeetcodeServiceImpl implements LeetcodeService {
         }
     }
 
+    @Override
+    public Leetcode getLeetcode(User user) {
+        return leetcodeRepository.findByUser(user);
+
+
+    }
+
 
     @Override
     public void schedule() {

@@ -1,5 +1,6 @@
 package org.vivek.platform.Service;
 
+import org.vivek.platform.Model.Codechef.Codechef;
 import org.vivek.platform.Model.Codechef.CodechefRatingDTO;
 import org.vivek.platform.Model.Codeforces.Rating;
 import org.vivek.platform.Model.User;
@@ -10,5 +11,5 @@ public interface CodechefService {
     void fetchapi(String username, User user);
     void schedule();
     List<Rating> mapRating(List<CodechefRatingDTO> list);
-    void getCodechef(User user);
+    Codechef getCodechef(User user);
 }
