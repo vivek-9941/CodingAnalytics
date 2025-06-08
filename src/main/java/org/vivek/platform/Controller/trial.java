@@ -4,13 +4,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.vivek.platform.Model.Leetcode.LeetCodeSubmissionStats;
-import org.vivek.platform.Model.Leetcode.Leetcode;
 import org.vivek.platform.Model.User;
 import org.vivek.platform.Repository.LeetcodeRepository;
 import org.vivek.platform.Service.CodechefService;
 import org.vivek.platform.Service.Implementation.*;
-import org.vivek.platform.Service.UserService;
 
 import java.util.Map;
 
@@ -69,7 +66,7 @@ public class trial {
     public class CodeforcesController {
 
         @Autowired
-        private CodeforcesSubmissions codeforcesService;
+        private CodeforcesSubmissionsclient codeforcesService;
 
         @GetMapping("/verdict-summary/{handle}")
         public Map<String, Integer> getVerdictStats(@PathVariable String handle) {

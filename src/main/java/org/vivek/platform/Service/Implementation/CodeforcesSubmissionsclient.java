@@ -6,11 +6,11 @@ import org.springframework.web.reactive.function.client.WebClient;
 import java.util.*;
 
 @Service
-public class CodeforcesSubmissions {
+public class CodeforcesSubmissionsclient {
 
     private final WebClient webClient;
 
-    public CodeforcesSubmissions(WebClient.Builder builder) {
+    public CodeforcesSubmissionsclient(WebClient.Builder builder) {
         this.webClient = builder.baseUrl("https://codeforces.com/api").build();
     }
 
