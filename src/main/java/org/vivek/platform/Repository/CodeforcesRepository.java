@@ -6,4 +6,6 @@ import org.vivek.platform.Model.User;
 
 public interface CodeforcesRepository extends JpaRepository<Codeforces, Long> {
     Codeforces findByHandle(String handle);
+
+    Codeforces getCodeforcesByUser(User user);
 }

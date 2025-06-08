@@ -6,7 +6,7 @@ import org.vivek.platform.Model.User;
 public interface LeetcodeService {
 
     void fetchapi(String username, User user) throws JsonProcessingException;
-
+    void getLeetcode(User user);
     void schedule();
 
 }

@@ -10,4 +10,5 @@ public interface CodechefService {
     void fetchapi(String username, User user);
     void schedule();
     List<Rating> mapRating(List<CodechefRatingDTO> list);
+    void getCodechef(User user);
 }
