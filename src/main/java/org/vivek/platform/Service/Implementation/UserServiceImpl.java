@@ -14,13 +14,13 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
-
     @Override
-    public void register(User user) {
+    public boolean checkAlreadyPresent(String username, String email) {
+       User user = userRepository.findByUsername(username);
+       User user2 = userRepository.findByEmail(email);
+       if(user != null &&  user2 != null){return false;}
+       return true;
+    }
 
-    }
-    @Override
-    public User getUserById(Long id) {
-        return userRepository.findById(id).orElse(null);
-    }
+
 }
