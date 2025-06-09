@@ -10,6 +10,7 @@ import org.vivek.platform.Repository.CodeforcesRepository;
 import org.vivek.platform.Service.CodeforcesService;
 import org.vivek.platform.Service.DTO.CodeforcesRatingDTO;
 import org.vivek.platform.Service.DTO.CodeforcesUserInfoResponse;
+import org.vivek.platform.exception.ErrorFetchingApi;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -64,6 +65,9 @@ public class CodeforcesServiceImpl implements CodeforcesService {
             }
             user.setCf(codeforces);
             codeforcesRepository.save(codeforces);
+        }
+        else{
+            throw new ErrorFetchingApi("Codeforces account not found");
         }
 
     }
