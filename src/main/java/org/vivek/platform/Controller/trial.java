@@ -62,11 +62,11 @@ public class trial {
         /// now just copy all the values from exxisting to new 
     }
     @Autowired
-    codeforcessubmissionService codeforcessubmissionService;
+    LeetcodeRatingserivce codeforcessubmissionService;
     @GetMapping("/submit")
-    public CodeforcesSubmissions submissions() {
+    public void  submissions() throws JsonProcessingException {
 
-        return codeforcessubmissionService.getVerdictRatingStats("vivek_9941" ,  userService.getUserById(1L));
+         codeforcessubmissionService.fetchRecent100("vivek_m5cs");
     }
 
 

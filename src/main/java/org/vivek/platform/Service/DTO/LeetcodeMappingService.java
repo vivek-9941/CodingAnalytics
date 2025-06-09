@@ -70,9 +70,6 @@ public class LeetcodeMappingService {
         tagStat.setProfile(leetcode);
         leetcode.setTagStats(List.of(tagStat));
 
-        // Rating (if applicable, else leave empty)
-        leetcode.setRatingHistory(new ArrayList<Rating>());
-
         return leetcode;
     }
 

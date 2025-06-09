@@ -18,4 +18,8 @@ public class WebConfig {
         return WebClient.builder().baseUrl("https://codechef-api.vercel.app/handle").build();
     }
 
+    @Bean
+    public WebClient leetcodeWebclient(){
+        return WebClient.builder().baseUrl("https://leetcode.com").build();
+    }
 }
