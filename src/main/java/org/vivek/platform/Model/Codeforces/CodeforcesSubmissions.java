@@ -1,5 +1,6 @@
 package org.vivek.platform.Model.Codeforces;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -40,5 +41,6 @@ public class CodeforcesSubmissions {
     private LocalDateTime localDateTime;
 
     @OneToOne
+    @JsonIgnore
     private User user;
 }
