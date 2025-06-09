@@ -108,7 +108,6 @@ public class LeetcodeRatingserivce {
                     .contestDateTime(Instant.ofEpochSecond(node.path("contest").path("startTime").asLong())
                             .atZone(ZoneId.systemDefault())
                             .toLocalDateTime())
-                    .userRankingInfo(info)// link back to parent
                     .build();
 
             historyList.add(entry);

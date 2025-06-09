@@ -1,5 +1,6 @@
 package org.vivek.platform.Model.Leetcode.Ratings;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -28,7 +29,5 @@ public class UserContestRankingHistory {
     private String contestTitle;
     private LocalDateTime contestDateTime;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_ranking_info_id")
-    private RankingInfo userRankingInfo;
+
 }

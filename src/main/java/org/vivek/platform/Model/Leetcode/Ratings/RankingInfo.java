@@ -1,5 +1,6 @@
 package org.vivek.platform.Model.Leetcode.Ratings;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,6 +25,8 @@ public class RankingInfo {
     private Double topPercentage;
     private LocalDateTime lastupdated;
 
-    @OneToMany(mappedBy = "userRankingInfo", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<UserContestRankingHistory> contestHistory  = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "user_ranking_info_id")  // This creates the foreign key in the child table
+    private List<UserContestRankingHistory> contestHistory = new ArrayList<>();
+
 }

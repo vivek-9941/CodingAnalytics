@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.vivek.platform.Model.Codeforces.CodeforcesSubmissions;
+import org.vivek.platform.Model.Leetcode.Ratings.RankingInfo;
 import org.vivek.platform.Model.User;
 import org.vivek.platform.Repository.CodeforcesSubmissionRepository;
 import org.vivek.platform.Repository.LeetcodeRepository;
@@ -64,9 +65,9 @@ public class trial {
     @Autowired
     LeetcodeRatingserivce codeforcessubmissionService;
     @GetMapping("/submit")
-    public void  submissions() throws JsonProcessingException {
+    public RankingInfo submissions() throws JsonProcessingException {
 
-         codeforcessubmissionService.fetchRecent100("vivek_m5cs");
+        return  codeforcessubmissionService.fetchRecent100("vivek_m5cs");
     }
 
 
