@@ -10,8 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.vivek.platform.Model.Leetcode.Ratings.RankingInfo;
 import org.vivek.platform.Model.Leetcode.Ratings.UserContestRankingHistory;
-import org.vivek.platform.Repository.UserContestRankingInfoRepository;
-import org.vivek.platform.config.WebConfig;
+import org.vivek.platform.Repository.CurrentRatingInfo;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -28,32 +27,43 @@ public class LeetcodeRatingserivce {
     private ObjectMapper objectMapper;
 
     @Autowired
-    private UserContestRankingInfoRepository rankingInfoRepository;
+    private CurrentRatingInfo rankingInfoRepository;
 
-    public List<JsonNode> fetchRecent100(String username) throws JsonProcessingException {
-        String query =  """
-        query userContestRankingInfo($username: String!) {
-            userContestRanking(username: $username) {
-                attendedContestsCount
-                rating
-                globalRanking
-                totalParticipants
-                topPercentage
-                badge { name }
-            }
-            userContestRankingHistory(username: $username) {
-                attended
-                trendDirection
-                problemsSolved
-                totalProblems
-                finishTimeInSeconds
-                rating
-                ranking
-                contest { title startTime }
+    public RankingInfo fetchRecent100(String username) throws JsonProcessingException {
+//        RankingInfo rankingInfo = rankingInfoRepository.findByUsername(username);
+//       to get the ratings List<UserContestRankingHistory> allRatings = rankingInfo.getContestHistory();
+
+        RankingInfo rankingInfo = rankingInfoRepository.findByUsername(username);
+        boolean ispresent= false;
+        if(rankingInfo != null) {
+            ispresent = true;
+            if(LocalDateTime.now().isBefore(rankingInfo.getLastupdated().plusHours(24))){
+                return rankingInfo;
             }
         }
-    """;
-        Map<String, Object> payloadd= Map.of("operationName", "userContestRankingInfo",
+        String query = """
+                    query userContestRankingInfo($username: String!) {
+                        userContestRanking(username: $username) {
+                            attendedContestsCount
+                            rating
+                            globalRanking
+                            totalParticipants
+                            topPercentage
+                            badge { name }
+                        }
+                        userContestRankingHistory(username: $username) {
+                            attended
+                            trendDirection
+                            problemsSolved
+                            totalProblems
+                            finishTimeInSeconds
+                            rating
+                            ranking
+                            contest { title startTime }
+                        }
+                    }
+                """;
+        Map<String, Object> payloadd = Map.of("operationName", "userContestRankingInfo",
                 "variables", Map.of("username", username),
                 "query", query);
 
@@ -88,7 +98,6 @@ public class LeetcodeRatingserivce {
             if (!node.path("attended").asBoolean()) continue;
 
             UserContestRankingHistory entry = UserContestRankingHistory.builder()
-
                     .trendDirection(node.path("trendDirection").asText())
                     .problemsSolved(node.path("problemsSolved").asInt())
                     .totalProblems(node.path("totalProblems").asInt())
@@ -107,5 +116,11 @@ public class LeetcodeRatingserivce {
 
         info.setContestHistory(historyList);
 
-        rankingInfoRepository.save(info); // cascades history entries
+        if(ispresent) {
+            info.setId(rankingInfo.getId());
+        }
+        rankingInfoRepository.save(info);
+        return info;
+        // cascades history entries
+    }
 }
