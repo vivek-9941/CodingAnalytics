@@ -35,11 +35,6 @@ public class Leetcode {
     @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<LeetCodeTagStat> tagStats;
 
-    @ElementCollection
-    @CollectionTable(
-            name = "leetcode_rating_history",
-            joinColumns = @JoinColumn(name = "leetcode_id"))
-    private List<Rating> ratingHistory;
 
     @OneToOne
     private User user;
