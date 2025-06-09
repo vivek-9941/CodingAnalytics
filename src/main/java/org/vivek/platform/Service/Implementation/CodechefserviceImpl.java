@@ -50,6 +50,7 @@ public class CodechefserviceImpl implements CodechefService {
                     codechef.setId(existing.getId());
 
             }
+            user.setCc(codechef);
             codeChefRepository.save(codechef);
         }
     }

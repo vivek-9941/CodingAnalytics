@@ -62,6 +62,7 @@ public class CodeforcesServiceImpl implements CodeforcesService {
             if(existing != null) {
                 codeforces.setId(existing.getId());
             }
+            user.setCf(codeforces);
             codeforcesRepository.save(codeforces);
         }
 

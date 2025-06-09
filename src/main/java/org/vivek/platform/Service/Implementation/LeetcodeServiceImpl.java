@@ -68,7 +68,7 @@ public class LeetcodeServiceImpl implements LeetcodeService {
             newEntity.setId(id);
 //                leetcodeRepository.delete(existingEntity);
             leetcodeRepository.flush(); // ✅ Immediately execute DELETE
-
+            user.setLc(newEntity);
             leetcodeRepository.save(newEntity);
 //
 //            }

@@ -27,7 +27,6 @@ public class User {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonManagedReference
-
     private Codeforces cf;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
