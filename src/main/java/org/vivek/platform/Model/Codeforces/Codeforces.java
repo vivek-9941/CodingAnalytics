@@ -1,11 +1,9 @@
 package org.vivek.platform.Model.Codeforces;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.vivek.platform.Model.User;
 
 import java.time.LocalDate;
@@ -16,7 +14,8 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@Builder@ToString(exclude = "user")
+
 public class Codeforces {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,5 +35,6 @@ public class Codeforces {
     private List<Rating> CodeforcesRatings;
 
     @OneToOne
+    @JsonBackReference
     private User user;
 }
