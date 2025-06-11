@@ -22,6 +22,9 @@ public class User {
     private String username;
     private String password;
     private String email;
+    private String cchandle;
+    private String cfhandle;
+    private String lchandle;
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Leetcode lc;
 
@@ -31,6 +34,7 @@ public class User {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Codechef cc;
+
 
 
 }
