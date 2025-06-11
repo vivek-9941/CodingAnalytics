@@ -5,6 +5,9 @@ import org.springframework.stereotype.Service;
 import org.vivek.platform.Model.User;
 import org.vivek.platform.Repository.UserRepository;
 import org.vivek.platform.Service.UserService;
+
+import java.util.Optional;
+
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
@@ -16,10 +19,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean checkAlreadyPresent(String username, String email) {
-       User user = userRepository.findByUsername(username);
-       User user2 = userRepository.findByEmail(email);
-       if(user != null &&  user2 != null){return false;}
-       return true;
+        return userRepository.findByUsername(username) != null || userRepository.findByEmail(email) != null;
+    }
+
+
+    @Override
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 
 
