@@ -42,11 +42,8 @@ public class UserController {
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Missing or invalid Authorization header");
         }
-
         String token = authHeader.substring(7);
-
         String email = jwtService.getEmailFromToken(token);
-
         System.out.println("emails is" + email);
         User userOptional = userService.findByEmail(email); // or findByUsername
         System.out.println(userOptional);
@@ -57,5 +54,21 @@ public class UserController {
         }
     }
 
+        @GetMapping("/fetchuser")
+        public ResponseEntity<?> fetchUser(HttpServletRequest request) {
+            String authHeader = request.getHeader("Authorization");
+            if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Missing or invalid Authorization header");
+            }
+            String token = authHeader.substring(7);
+            String email = jwtService.getEmailFromToken(token);
 
+            User userOptional = userService.findByEmail(email); // or findByUsername
+            System.out.println(userOptional);
+            if (userOptional != null) {
+                return ResponseEntity.ok(userOptional);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(email);
+            }
+        }
 }
