@@ -14,7 +14,8 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder@ToString(exclude = "user")
+@Builder
+
 
 public class Codeforces {
     @Id
@@ -36,5 +37,6 @@ public class Codeforces {
 
     @OneToOne
     @JsonBackReference
+    @ToString.Exclude
     private User user;
 }
