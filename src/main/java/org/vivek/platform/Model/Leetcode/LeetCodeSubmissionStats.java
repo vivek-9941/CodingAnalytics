@@ -1,10 +1,8 @@
 package org.vivek.platform.Model.Leetcode;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Data
@@ -29,5 +27,7 @@ public class LeetCodeSubmissionStats {
     private Integer AllSubmission;
     @ManyToOne
     @JoinColumn(name = "profile_id")
+    @ToString.Exclude
+    @JsonBackReference
     private Leetcode profile;
 }
