@@ -1,5 +1,6 @@
 package org.vivek.platform.Service.Implementation;
 
+import jakarta.transaction.Transactional;
 import org.aspectj.apache.bcel.classfile.Code;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -16,25 +17,28 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
+
 @Service
 public class CodechefserviceImpl implements CodechefService {
     private final WebClient CodeChefClient;
     private final CodeChefRepository codeChefRepository;
+
     public CodechefserviceImpl(@Qualifier("CodeChefClient") WebClient codeChefClient, CodeChefRepository codeChefRepository) {
         this.CodeChefClient = codeChefClient;
         this.codeChefRepository = codeChefRepository;
     }
 
+    @Transactional
     @Override
     public void fetchapi(String username, User user) {
         CodechefDTO codechefDTO = CodeChefClient.get()
-                .uri("/"+username)
+                .uri("/" + username)
                 .retrieve()
                 .bodyToMono(CodechefDTO.class)
                 .block();
 
-        if(codechefDTO != null) {
-            Codechef  codechef = Codechef.builder()
+        if (codechefDTO != null) {
+            Codechef codechef = Codechef.builder()
                     .realName(codechefDTO.getName())
                     .Currentrating(codechefDTO.getCurrentRating())
                     .globalRanking(codechefDTO.getGlobalRank())
@@ -46,8 +50,8 @@ public class CodechefserviceImpl implements CodechefService {
                     .build();
 
             Codechef existing = codeChefRepository.findByUser(user);
-            if(existing != null) {
-                    codechef.setId(existing.getId());
+            if (existing != null) {
+                codechef.setId(existing.getId());
 
             }
             user.setCc(codechef);
@@ -55,7 +59,7 @@ public class CodechefserviceImpl implements CodechefService {
         }
     }
 
-    public List<Rating> mapRating(List<CodechefRatingDTO> list){
+    public List<Rating> mapRating(List<CodechefRatingDTO> list) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
         return list.stream().map(r -> {
@@ -70,21 +74,19 @@ public class CodechefserviceImpl implements CodechefService {
 
     @Override
     public Codechef getCodechef(String username, User user) {
-        Codechef cc =  codeChefRepository.findByUser(user);
-        if(cc == null) {
+        Codechef cc = codeChefRepository.findByUser(user);
+        if (cc == null) {
             fetchapi(username, user);
-        }
-        else if(schedule(cc)){
+        } else if (schedule(cc)) {
             fetchapi(username, user);
-        }
-        else{
+        } else {
             return cc;
         }
         return codeChefRepository.findByUser(user);
     }
 
     @Override
-    public boolean schedule( Codechef codechef) {
-        return (LocalDateTime.now().isAfter(codechef.getLastUpdated().plusHours(24))) ;
+    public boolean schedule(Codechef codechef) {
+        return (LocalDateTime.now().isAfter(codechef.getLastUpdated().plusHours(24)));
     }
 }
