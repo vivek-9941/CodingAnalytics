@@ -3,10 +3,7 @@ package org.vivek.platform.Model.Codechef;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.vivek.platform.Model.Codeforces.Rating;
 import org.vivek.platform.Model.User;
 
@@ -37,6 +34,7 @@ public class Codechef {
 
     @OneToOne
     @JoinColumn(name = "user_id")
+    @ToString.Exclude
     @JsonBackReference
     private User user;
 }
