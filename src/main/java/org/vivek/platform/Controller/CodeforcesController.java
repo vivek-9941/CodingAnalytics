@@ -2,9 +2,7 @@ package org.vivek.platform.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.vivek.platform.Model.Codeforces.Codeforces;
 import org.vivek.platform.Model.Codeforces.CodeforcesSubmissions;
 import org.vivek.platform.Model.User;
@@ -13,6 +11,7 @@ import org.vivek.platform.Service.Implementation.codeforcessubmissionService;
 
 @RestController
 @RequestMapping("/api/codeforces")
+@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 public class CodeforcesController {
     @Autowired
     private CodeforcesService codeforcesService;
@@ -21,7 +20,7 @@ public class CodeforcesController {
     codeforcessubmissionService codeforcessubmissionService;
 
     @PostMapping("/get")
-    public ResponseEntity<?> getCodeforces(String handle, User user) {
+    public ResponseEntity<?> getCodeforces(@RequestParam String handle,@RequestBody User user) {
         Codeforces cf =codeforcesService.getCodeforces(handle,user);
         if(cf != null){
             return ResponseEntity.ok(cf);

@@ -4,9 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.vivek.platform.Model.Leetcode.Leetcode;
 import org.vivek.platform.Model.Leetcode.Ratings.RankingInfo;
 import org.vivek.platform.Model.User;
@@ -15,6 +13,7 @@ import org.vivek.platform.Service.Implementation.LeetcodeServiceImpl;
 
 @RestController
 @RequestMapping("/api/leetcode")
+@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 public class LeetcodeController {
     @Autowired
     private LeetcodeRatingserivce ratingserivce;
@@ -48,8 +47,9 @@ public class LeetcodeController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
     @PostMapping("/get")
-    public ResponseEntity<?> getleetcode(String handle , User user) throws JsonProcessingException {
+    public ResponseEntity<?> getleetcode(@RequestParam String handle ,@RequestBody  User user) throws JsonProcessingException {
         Leetcode lc =  leetcodeService.getLeetcode(handle, user);
+        System.out.println("leetcodesent");
         if(lc!= null) {
             return new ResponseEntity<>(lc, HttpStatus.OK);
         }
