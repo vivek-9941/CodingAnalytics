@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.vivek.platform.Model.User;
 import org.vivek.platform.Security.JwtService;
+import org.vivek.platform.Service.Implementation.UserServiceImpl;
 import org.vivek.platform.Service.UserService;
 
 import java.util.Optional;
@@ -19,7 +20,7 @@ import java.util.Optional;
 @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 public class UserController {
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userService;
 
     @Autowired
     private JwtService jwtService;
@@ -58,6 +59,7 @@ public class UserController {
         public ResponseEntity<?> fetchUser(HttpServletRequest request) {
             String authHeader = request.getHeader("Authorization");
             if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+                System.out.println("fetching user errorr");
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Missing or invalid Authorization header");
             }
             String token = authHeader.substring(7);
