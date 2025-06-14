@@ -21,7 +21,7 @@ public class LeetcodeController {
     LeetcodeServiceImpl leetcodeService;
 
     @PostMapping("/ranking")
-    public ResponseEntity<?> fetchsubmissions(String username) throws JsonProcessingException {
+    public ResponseEntity<?> fetchsubmissions(@RequestParam String username) throws JsonProcessingException {
         RankingInfo info =  ratingserivce.fetchRecent100(username);
 
         if(info != null) {
