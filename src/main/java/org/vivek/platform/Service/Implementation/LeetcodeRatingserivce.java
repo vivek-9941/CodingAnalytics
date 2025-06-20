@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.vivek.platform.Model.Leetcode.Ratings.RankingInfo;
 import org.vivek.platform.Model.Leetcode.Ratings.UserContestRankingHistory;
-import org.vivek.platform.Repository.CurrentRatingInfo;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -26,21 +25,12 @@ public class LeetcodeRatingserivce {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @Autowired
-    private CurrentRatingInfo rankingInfoRepository;
 
     public RankingInfo fetchRecent100(String username) throws JsonProcessingException {
 //        RankingInfo rankingInfo = rankingInfoRepository.findByUsername(username);
 //       to get the ratings List<UserContestRankingHistory> allRatings = rankingInfo.getContestHistory();
 
-        RankingInfo rankingInfo = rankingInfoRepository.findByUsername(username);
-        boolean ispresent= false;
-        if(rankingInfo != null) {
-            ispresent = true;
-            if(LocalDateTime.now().isBefore(rankingInfo.getLastupdated().plusHours(24))){
-                return rankingInfo;
-            }
-        }
+
         String query = """
                     query userContestRankingInfo($username: String!) {
                         userContestRanking(username: $username) {
@@ -115,11 +105,6 @@ public class LeetcodeRatingserivce {
 
         info.setContestHistory(historyList);
 
-        if(ispresent) {
-            info.setId(rankingInfo.getId());
-        }
-        rankingInfoRepository.save(info);
         return info;
-        // cascades history entries
     }
 }
