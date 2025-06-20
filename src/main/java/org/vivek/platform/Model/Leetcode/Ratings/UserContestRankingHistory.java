@@ -6,17 +6,13 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Entity
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "user_contest_ranking_history")
 public class UserContestRankingHistory {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     private String trendDirection;
 
     private Integer problemsSolved;
