@@ -29,7 +29,7 @@ public class CodeforcesController {
     }
 
     @PostMapping("/submission")
-    public ResponseEntity<?> getcodeforcesSubmissions(String handle, User user) {
+    public ResponseEntity<?> getcodeforcesSubmissions(@RequestParam String handle,@RequestBody User user) {
         CodeforcesSubmissions cf  = codeforcessubmissionService.getVerdictRatingStats(handle,user);
         if(cf != null){
             return ResponseEntity.ok(cf);
