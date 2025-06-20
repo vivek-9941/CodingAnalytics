@@ -3,20 +3,20 @@ package org.vivek.platform.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.vivek.platform.Model.Codechef.Codechef;
+import org.vivek.platform.Model.Gfg.GfgProfile;
 import org.vivek.platform.Model.User;
-import org.vivek.platform.Service.CodechefService;
+import org.vivek.platform.Service.GfgService;
 
 @RestController
-@RequestMapping("/api/codechef")
+@RequestMapping("/api/gfg")
 @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
-public class CodechefController {
+public class GfgController {
     @Autowired
-    CodechefService codechefService;
+    GfgService gfgService;
 
     @PostMapping("/get")
     public ResponseEntity<?> getCodechef(@RequestParam String handle, @RequestBody User user) {
-        Codechef result =  codechefService.getCodechef(handle, user);
+        GfgProfile result =  gfgService.getgfg(handle, user);
         if(result == null) {
             return ResponseEntity.notFound().build();
         }
