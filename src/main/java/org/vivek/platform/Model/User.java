@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.vivek.platform.Model.Codechef.Codechef;
 import org.vivek.platform.Model.Codeforces.Codeforces;
 import org.vivek.platform.Model.Leetcode.Leetcode;
 
@@ -23,8 +22,8 @@ public class User {
     private String username;
     private String password;
     private String email;
-    private String cchandle;
     private String cfhandle;
+    private String gfghandle;
     private String lchandle;
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonIgnore
@@ -36,10 +35,7 @@ public class User {
     @JsonManagedReference
     private Codeforces cf;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    @JsonIgnore
-    @JsonManagedReference
-    private Codechef cc;
+
 
 
 
