@@ -13,16 +13,10 @@ public class codeforcessubmissionService {
 
     @Autowired
     private CodeforcesSubmissionsclient codeforcesService;
-    @Autowired
-    private CodeforcesSubmissionRepository repo;
+
 
     public CodeforcesSubmissions getVerdictRatingStats(String handle, User user) {
-        CodeforcesSubmissions existing = repo.findByUser(user);
-        if(existing != null) {
-            if(LocalDateTime.now().isBefore(existing.getLocalDateTime().plusHours(24))){
-                return existing;
-            }
-        }
+
         CodeforcesSubmissions submissions = new CodeforcesSubmissions();
         Map<String , Integer> mpp =  codeforcesService.getVerdictWiseStats(handle);
         submissions.setCompilationError(mpp.getOrDefault("COMPILATION_ERROR", 0));
@@ -47,7 +41,6 @@ public class codeforcessubmissionService {
         submissions.set_1800(map.getOrDefault(1800, 0));
         submissions.setLocalDateTime(LocalDateTime.now());
 
-        repo.save(submissions);
         return submissions;
     }
 
