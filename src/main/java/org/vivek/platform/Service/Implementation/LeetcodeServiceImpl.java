@@ -61,17 +61,17 @@ public class LeetcodeServiceImpl implements LeetcodeService {
             // Check if existing record present
             Leetcode existingEntity = leetcodeRepository.findByHandle(newEntity.getHandle());
 
-//            if (existingEntity != null) {
-            assert existingEntity != null;
+            if (existingEntity != null) {
+
             long id = existingEntity.getId();
-            newEntity.setCountry("United States");
+//            newEntity.setCountry("United States");
             newEntity.setId(id);
 //                leetcodeRepository.delete(existingEntity);
-            leetcodeRepository.flush(); // ✅ Immediately execute DELETE
+//            leetcodeRepository.flush(); // ✅ Immediately execute DELETE
             user.setLc(newEntity);
+            }
             leetcodeRepository.save(newEntity);
 //
-//            }
 //            else{
 //                leetcodeRepository.save(newEntity);
 //            }
