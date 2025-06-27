@@ -53,8 +53,6 @@ To prove our interceptor-based rate limiter holds up under abuse, we ran two con
 
 ---
 
-By including this in your README under a `docs/` folder (e.g. `docs/ratelimiter-test.png`), you give both recruiters and fellow developers clear, quantified proof of your service’s resilience.
-
 
 
 ## 🛠️ Tech Stack
