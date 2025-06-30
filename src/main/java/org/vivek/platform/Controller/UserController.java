@@ -36,7 +36,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 
-
+    
     @PostMapping("/present")
     public ResponseEntity<?> presentUser(HttpServletRequest request) {
         String authHeader = request.getHeader("Authorization");
