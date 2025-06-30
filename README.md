@@ -19,6 +19,42 @@ A full-stack web application that analyzes and visualizes competitive programmin
 
 ---
 
+## 🚀 Performance Testing: Rate Limiter Validation
+
+To prove our interceptor-based rate limiter holds up under abuse, we ran two controlled load tests using Postman’s Performance Runner on a local dev laptop.
+
+### 🔧 Test Context & Configuration
+
+| Attribute             | Details                                           |
+|-----------------------|---------------------------------------------------|
+| **Limiter Policy**    | 100 requests/min per client via Spring Boot interceptor  
+| **Endpoints Covered** | 15+ critical endpoints (incl. `/auth/user/present`)  
+| **Tools**             | Postman Performance Runner  
+| **Scenarios**         | 10 Virtual Users (5 min run)<br>20 Virtual Users (10 min run)  
+
+**Postman Runner Settings**  
+- Load Profile: Fixed  
+- Virtual Users: 10 (then 20)  
+- Duration: 5 min (then 10 min)  
+- Pass Condition: `Requests per second is less than 150 req/s`
+
+### 📊 Test Results
+
+
+| Scenario          | Total Requests | RPS   | Avg. Latency | Error Rate | Throttled Requests |
+|-------------------|----------------|-------|--------------|------------|--------------------|
+| **10 VUs, 5 min** | 2,744          | 8.95  | 5 ms         | 77.9%      | 2,138 / 2,744      |
+| **20 VUs, 10 min**| 1,170          | 17.28 | 7 ms         | 82.3%      | 963 / 1,170        |
+
+> **Interpretation:**  
+> - **77–82%** of abusive calls were blocked (HTTP 429)  
+> - **Sub-7 ms** average response times under stress  
+> - **Zero service downtime** or 5xx errors  
+
+---
+
+
+
 ## 🛠️ Tech Stack
 
 ### Backend
