@@ -28,7 +28,6 @@ org\vivek\platform\Model\Leetcode\LeetCodeTagStat.class
 org\vivek\platform\Model\User.class
 org\vivek\platform\Model\Codeforces\Codeforces$CodeforcesBuilder.class
 org\vivek\platform\Model\Codeforces\Rating$RatingBuilder.class
-org\vivek\platform\Mailing\EmailController.class
 org\vivek\platform\Model\Gfg\GfgDTO.class
 org\vivek\platform\Service\Implementation\codeforcessubmissionService.class
 org\vivek\platform\Model\Codeforces\CodeforcesSubmissions.class
@@ -48,7 +47,6 @@ org\vivek\platform\Model\Leetcode\Ratings\UserContestRankingHistory$UserContestR
 org\vivek\platform\config\WebClientConfig.class
 org\vivek\platform\Service\GfgService.class
 org\vivek\platform\Model\Leetcode\Ratings\RankingInfo.class
-org\vivek\platform\Mailing\EmailSenderService.class
 org\vivek\platform\Model\Gfg\GfgDTO$DifficultyStats.class
 org\vivek\platform\Repository\CodeforcesRepository.class
 org\vivek\platform\Model\Leetcode\LeetCodeSubmissionStats.class
