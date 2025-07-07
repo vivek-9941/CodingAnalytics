@@ -1,0 +1,5 @@
+org\vivek\platform\Service\Implementation\UserServiceImplTest.class
+org\vivek\platform\Controller\UserControllerSecurityTest.class
+org\vivek\platform\FiRsystemApplicationTests.class
+org\vivek\platform\Service\Implementation\LeetcodeServiceImplTest.class
+org\vivek\platform\Service\Implementation\GfgserviceImplTest.class
