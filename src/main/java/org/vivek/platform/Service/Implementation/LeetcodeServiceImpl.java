@@ -42,9 +42,9 @@ public class LeetcodeServiceImpl implements LeetcodeService {
     private ObjectMapper objectMapper;
 
 
-    public LeetcodeServiceImpl(LeetcodeClient client) {
-        this.client = client;
-    }
+//    public LeetcodeServiceImpl(LeetcodeClient client) {
+//        this.client = client;
+//    }
 
     @Override
     @Transactional
