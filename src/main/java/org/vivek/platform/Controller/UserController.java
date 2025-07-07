@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.vivek.platform.Model.LoginRequest;
 import org.vivek.platform.Model.User;
 import org.vivek.platform.Security.JwtService;
 import org.vivek.platform.Service.Implementation.UserServiceImpl;
@@ -53,6 +54,18 @@ public class UserController {
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(email);
         }
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+        System.out.println(request);
+        String token =  userService.validate(request.getUsername(), request.getPassword());//@RequestParam String username, @RequestParam String password
+
+
+        if(token != null) {
+            return ResponseEntity.ok(token);
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
     }
 
         @GetMapping("/fetchuser")
