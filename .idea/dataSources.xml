@@ -1,11 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="platform@localhost" uuid="da3ab75a-c287-415b-8953-93c908c0579c">
+    <data-source source="LOCAL" name="platform@mysql-25decda7-vivekmane9941-dada.e.aivencloud.com" uuid="15214fd2-676b-4660-9295-9a878d74ab3d">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
+      <imported>true</imported>
+      <remarks>$PROJECT_DIR$/src/main/resources/application.properties</remarks>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/platform</jdbc-url>
+      <jdbc-url>jdbc:mysql://mysql-25decda7-vivekmane9941-dada.e.aivencloud.com:27263/platform?ssl-mode=REQUIRED</jdbc-url>
+      <jdbc-additional-properties>
+        <property name="com.intellij.clouds.kubernetes.db.host.port" />
+        <property name="com.intellij.clouds.kubernetes.db.enabled" value="false" />
+        <property name="com.intellij.clouds.kubernetes.db.container.port" />
+      </jdbc-additional-properties>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+    <data-source source="LOCAL" name="MySQL" uuid="e7a7d053-4991-4ac4-91c5-ece1d2b7bf1d">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <configured-by-url>true</configured-by-url>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://avnadmin:AVNS_RRbt3vTyY7cU-K-rdOL@mysql-25decda7-vivekmane9941-dada.e.aivencloud.com:27263/platform?ssl-mode=REQUIRED</jdbc-url>
       <jdbc-additional-properties>
         <property name="com.intellij.clouds.kubernetes.db.host.port" />
         <property name="com.intellij.clouds.kubernetes.db.enabled" value="false" />

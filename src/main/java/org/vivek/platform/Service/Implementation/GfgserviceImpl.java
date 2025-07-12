@@ -32,33 +32,44 @@ public class GfgserviceImpl implements GfgService {
                 .bodyToMono(GfgDTO.class)
                 .block();
 
-        if (response != null) {
-            GfgProfile profile = GfgProfile.builder()
-                    .username(response.getInfo().getUserName())
-                    .fullName(response.getInfo().getFullName())
-                    .profilePicture(response.getInfo().getProfilePicture())
-                    .institute(response.getInfo().getInstitute())
-                    .instituteRank(response.getInfo().getInstituteRank())
-                    .currentStreak(response.getInfo().getCurrentStreak())
-                    .maxStreak(response.getInfo().getMaxStreak())
-                    .codingScore(response.getInfo().getCodingScore())
-                    .monthlyScore(response.getInfo().getMonthlyScore())
-                    .totalProblemsSolved(response.getInfo().getTotalProblemsSolved())
-                    .basicCount(response.getSolvedStats().getOrDefault("basic", new GfgDTO.DifficultyStats()).getCount())
-                    .easyCount(response.getSolvedStats().getOrDefault("easy", new GfgDTO.DifficultyStats()).getCount())
-                    .mediumCount(response.getSolvedStats().getOrDefault("medium", new GfgDTO.DifficultyStats()).getCount())
-                    .hardCount(response.getSolvedStats().getOrDefault("hard", new GfgDTO.DifficultyStats()).getCount())
-                    .build();
-
-            GfgProfile existing = repo.findByUsername(username);
-            if (existing != null) {
-                profile.setId(existing.getId());
-
-            }
-            profile.setLastUpdated(LocalDateTime.now());
-            repo.save(profile);
+        if (response == null || response.getInfo() == null) {
+            System.out.println("GFG API returned null or missing 'info' for user: " + username);
+            return; // Or log and skip
         }
+
+        GfgDTO.Info info = response.getInfo();
+        GfgDTO.DifficultyStats defaultStats = new GfgDTO.DifficultyStats();
+
+        GfgProfile profile = GfgProfile.builder()
+                .username(info.getUserName())
+                .fullName(info.getFullName())
+                .profilePicture(info.getProfilePicture())
+                .institute(info.getInstitute())
+                .instituteRank(info.getInstituteRank())
+                .currentStreak(info.getCurrentStreak())
+                .maxStreak(info.getMaxStreak())
+                .codingScore(info.getCodingScore())
+                .monthlyScore(info.getMonthlyScore())
+                .totalProblemsSolved(info.getTotalProblemsSolved())
+                .basicCount(response.getSolvedStats() != null ?
+                        response.getSolvedStats().getOrDefault("basic", defaultStats).getCount() : 0)
+                .easyCount(response.getSolvedStats() != null ?
+                        response.getSolvedStats().getOrDefault("easy", defaultStats).getCount() : 0)
+                .mediumCount(response.getSolvedStats() != null ?
+                        response.getSolvedStats().getOrDefault("medium", defaultStats).getCount() : 0)
+                .hardCount(response.getSolvedStats() != null ?
+                        response.getSolvedStats().getOrDefault("hard", defaultStats).getCount() : 0)
+                .build();
+
+        GfgProfile existing = repo.findByUsername(username);
+        if (existing != null) {
+            profile.setId(existing.getId());
+        }
+
+        profile.setLastUpdated(LocalDateTime.now());
+        repo.save(profile);
     }
+
 
     @Override
     public boolean schedule(GfgProfile gfg) {
