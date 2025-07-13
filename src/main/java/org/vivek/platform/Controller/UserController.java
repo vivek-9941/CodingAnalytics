@@ -18,7 +18,6 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/auth/user")
-
 public class UserController {
     @Autowired
     private UserServiceImpl userService;

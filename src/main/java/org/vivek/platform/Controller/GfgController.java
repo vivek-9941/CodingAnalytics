@@ -9,7 +9,6 @@ import org.vivek.platform.Service.GfgService;
 
 @RestController
 @RequestMapping("/api/gfg")
-@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 public class GfgController {
     @Autowired
     GfgService gfgService;

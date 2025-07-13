@@ -11,7 +11,6 @@ import org.vivek.platform.Service.Implementation.codeforcessubmissionService;
 
 @RestController
 @RequestMapping("/api/codeforces")
-@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 public class CodeforcesController {
     @Autowired
     private CodeforcesService codeforcesService;

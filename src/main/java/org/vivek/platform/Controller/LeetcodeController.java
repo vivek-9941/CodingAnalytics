@@ -13,7 +13,6 @@ import org.vivek.platform.Service.Implementation.LeetcodeServiceImpl;
 
 @RestController
 @RequestMapping("/api/leetcode")
-@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 public class LeetcodeController {
     @Autowired
     private LeetcodeRatingserivce ratingserivce;
