@@ -34,12 +34,10 @@ org\vivek\platform\Service\Implementation\codeforcessubmissionService.class
 org\vivek\platform\Model\Codeforces\CodeforcesSubmissions.class
 org\vivek\platform\Model\Leetcode\Leetcode.class
 org\vivek\platform\Model\Gfg\GfgProfile$GfgProfileBuilder.class
-org\vivek\platform\GenAi\GroqController.class
 org\vivek\platform\Service\DTO\LeetcodeDTO$Profile.class
 org\vivek\platform\Repository\UserRepository.class
 org\vivek\platform\Security\JwtService.class
 org\vivek\platform\Service\DTO\LeetcodeDTO$TagProblemCounts.class
-org\vivek\platform\GenAi\GroqApiService.class
 org\vivek\platform\exception\ErrorFetchingApi.class
 org\vivek\platform\Service\DTO\CodeforcesRatingDTO$Result.class
 org\vivek\platform\Service\Implementation\LeetcodeClient.class

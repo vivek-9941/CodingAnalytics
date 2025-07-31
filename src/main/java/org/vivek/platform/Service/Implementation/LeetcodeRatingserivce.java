@@ -29,82 +29,86 @@ public class LeetcodeRatingserivce {
     public RankingInfo fetchRecent100(String username) throws JsonProcessingException {
 //        RankingInfo rankingInfo = rankingInfoRepository.findByUsername(username);
 //       to get the ratings List<UserContestRankingHistory> allRatings = rankingInfo.getContestHistory();
+        {
+            try {
+                String query = """
+                            query userContestRankingInfo($username: String!) {
+                                userContestRanking(username: $username) {
+                                    attendedContestsCount
+                                    rating
+                                    globalRanking
+                                    totalParticipants
+                                    topPercentage
+                                    badge { name }
+                                }
+                                userContestRankingHistory(username: $username) {
+                                    attended
+                                    trendDirection
+                                    problemsSolved
+                                    totalProblems
+                                    finishTimeInSeconds
+                                    rating
+                                    ranking
+                                    contest { title startTime }
+                                }
+                            }
+                        """;
+                Map<String, Object> payloadd = Map.of("operationName", "userContestRankingInfo",
+                        "variables", Map.of("username", username),
+                        "query", query);
+
+                String response = leetcodeWebclient.post()
+                        .uri("/graphql")
+                        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                        .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE) // ✅ recommended
+                        .header(HttpHeaders.USER_AGENT, "Mozilla/5.0")
+                        .bodyValue(payloadd)
+                        .retrieve()
+                        .bodyToMono(String.class)
+                        .block();
 
 
-        String query = """
-                    query userContestRankingInfo($username: String!) {
-                        userContestRanking(username: $username) {
-                            attendedContestsCount
-                            rating
-                            globalRanking
-                            totalParticipants
-                            topPercentage
-                            badge { name }
-                        }
-                        userContestRankingHistory(username: $username) {
-                            attended
-                            trendDirection
-                            problemsSolved
-                            totalProblems
-                            finishTimeInSeconds
-                            rating
-                            ranking
-                            contest { title startTime }
-                        }
-                    }
-                """;
-        Map<String, Object> payloadd = Map.of("operationName", "userContestRankingInfo",
-                "variables", Map.of("username", username),
-                "query", query);
+                JsonNode root = objectMapper.readTree(response);
+                JsonNode contestRanking = root.at("/data/userContestRanking");
 
-        String response = leetcodeWebclient.post()
-                .uri("/graphql")
-                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE) // ✅ recommended
-                .header(HttpHeaders.USER_AGENT, "Mozilla/5.0")
-                .bodyValue(payloadd)
-                .retrieve()
-                .bodyToMono(String.class)
-                .block();
+                RankingInfo info = RankingInfo.builder()
+                        .username(username)
+                        .attendedContestsCount(contestRanking.path("attendedContestsCount").asInt())
+                        .rating(contestRanking.path("rating").asDouble())
+                        .globalRanking(contestRanking.path("globalRanking").asInt())
+                        .topPercentage(contestRanking.path("topPercentage").asDouble())
+                        .lastupdated(LocalDateTime.now())
+                        .build();
 
+                JsonNode history = root.at("/data/userContestRankingHistory");
 
-        JsonNode root = objectMapper.readTree(response);
-        JsonNode contestRanking = root.at("/data/userContestRanking");
+                List<UserContestRankingHistory> historyList = new ArrayList<>();
+                for (int i = history.size() - 1; i >= 0 && i >= history.size() - 100; i--) {
+                    JsonNode node = history.get(i);
+                    if (!node.path("attended").asBoolean()) continue;
 
-        RankingInfo info = RankingInfo.builder()
-                .username(username)
-                .attendedContestsCount(contestRanking.path("attendedContestsCount").asInt())
-                .rating(contestRanking.path("rating").asDouble())
-                .globalRanking(contestRanking.path("globalRanking").asInt())
-                .topPercentage(contestRanking.path("topPercentage").asDouble())
-                .lastupdated(LocalDateTime.now())
-                .build();
+                    UserContestRankingHistory entry = UserContestRankingHistory.builder()
+                            .trendDirection(node.path("trendDirection").asText())
+                            .problemsSolved(node.path("problemsSolved").asInt())
+                            .totalProblems(node.path("totalProblems").asInt())
+                            .finishTimeInSeconds(node.path("finishTimeInSeconds").asLong())
+                            .rating(node.path("rating").asDouble())
+                            .ranking(node.path("ranking").asInt())
+                            .contestTitle(node.path("contest").path("title").asText())
+                            .contestDateTime(Instant.ofEpochSecond(node.path("contest").path("startTime").asLong())
+                                    .atZone(ZoneId.systemDefault())
+                                    .toLocalDateTime())
+                            .build();
 
-        JsonNode history = root.at("/data/userContestRankingHistory");
+                    historyList.add(entry);
+                }
 
-        List<UserContestRankingHistory> historyList = new ArrayList<>();
-        for (int i = history.size() - 1; i >= 0 && i >= history.size() - 100; i--) {
-            JsonNode node = history.get(i);
-            if (!node.path("attended").asBoolean()) continue;
+                info.setContestHistory(historyList);
 
-            UserContestRankingHistory entry = UserContestRankingHistory.builder()
-                    .trendDirection(node.path("trendDirection").asText())
-                    .problemsSolved(node.path("problemsSolved").asInt())
-                    .totalProblems(node.path("totalProblems").asInt())
-                    .finishTimeInSeconds(node.path("finishTimeInSeconds").asLong())
-                    .rating(node.path("rating").asDouble())
-                    .ranking(node.path("ranking").asInt())
-                    .contestTitle(node.path("contest").path("title").asText())
-                    .contestDateTime(Instant.ofEpochSecond(node.path("contest").path("startTime").asLong())
-                            .atZone(ZoneId.systemDefault())
-                            .toLocalDateTime())
-                    .build();
-
-            historyList.add(entry);
+                return info;
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
         }
-
-        info.setContestHistory(historyList);
-
-        return info;
     }
 }

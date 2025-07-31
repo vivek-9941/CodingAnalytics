@@ -69,7 +69,6 @@ public class CodeforcesServiceImpl implements CodeforcesService {
         else{
             throw new ErrorFetchingApi("Codeforces account not found");
         }
-
     }
 
     @Override
